@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import API from "../services/api";
 import { Helmet } from "react-helmet-async";
-import AdPlaceholder from "../components/AdPlaceholder";
+import AdSenseAd from "../components/AdSenseAd";
 
 function BlogView() {
   const { id } = useParams();
@@ -66,15 +66,15 @@ function BlogView() {
           </a>
         </div>
 
-        {/* ✅ Blog Content with Tailwind Prose */}
+        {/* ✅ Blog Content */}
         <article
           className="prose prose-lg max-w-none text-gray-800 leading-relaxed mb-10"
           dangerouslySetInnerHTML={{ __html: blog.content }}
         ></article>
 
-        {/* ✅ Ads Section */}
+        {/* ✅ Google Ad */}
         <div className="my-10">
-          <AdPlaceholder />
+          <AdSenseAd slot="2307121561" /> {/* ✅ तुझा actual Slot ID */}
         </div>
 
         {/* ✅ Back Button */}
@@ -92,5 +92,7 @@ function BlogView() {
 }
 
 export default BlogView;
+
+
 
 
