@@ -1,19 +1,40 @@
+
 import { Link } from "react-router-dom";
 
 function BlogCard({ blog }) {
+  const plainText = blog.content.replace(/<[^>]+>/g, ""); // Remove HTML tags
+
   return (
-    <div className="bg-white p-4 rounded shadow mb-4 hover:shadow-lg transition">
-      <h2 className="text-xl font-bold mb-2">{blog.title}</h2>
-      <p className="text-gray-600 text-sm mb-2">By {blog.author?.username || "Anonymous"}</p>
-      <p className="text-gray-700 mb-3 line-clamp-3">{blog.content.replace(/<[^>]+>/g, "").slice(0, 150)}...</p>
-      <Link
-        to={`/blog/${blog._id}`}
-        className="text-blue-500 hover:underline font-semibold"
-      >
-        Read More →
-      </Link>
+    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
+      {/* ✅ Blog Title */}
+      <h2 className="text-2xl font-semibold text-gray-900 px-4 pt-4 line-clamp-2">
+        {blog.title}
+      </h2>
+
+      {/* ✅ Author & Date */}
+      <div className="flex items-center text-gray-500 text-sm px-4 mt-2 mb-3">
+        <span>✍️ {blog.author?.username || "Anonymous"}</span>
+        <span className="mx-2">•</span>
+        <span>📅 {new Date(blog.createdAt).toLocaleDateString()}</span>
+      </div>
+
+      {/* ✅ Blog Description */}
+      <p className="text-gray-700 text-base px-4 mb-4 line-clamp-3">
+        {plainText.length > 150 ? `${plainText.slice(0, 150)}...` : plainText}
+      </p>
+
+      {/* ✅ Read More Button */}
+      <div className="px-4 pb-4">
+        <Link
+          to={`/blog/${blog._id}`}
+          className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition"
+        >
+          Read More →
+        </Link>
+      </div>
     </div>
   );
 }
 
 export default BlogCard;
+

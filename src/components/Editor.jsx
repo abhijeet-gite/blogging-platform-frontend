@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
 
-function Editor({ value, onChange }) {
+function Editor({ value, onChange, placeholder = "Write your blog content..." }) {
   const [ReactQuill, setReactQuill] = useState(null);
 
   useEffect(() => {
@@ -10,24 +11,34 @@ function Editor({ value, onChange }) {
     });
   }, []);
 
-  if (!ReactQuill) return <p className="text-gray-500">Loading editor...</p>;
+  if (!ReactQuill) {
+    return (
+      <div className="flex justify-center items-center py-10">
+        <p className="text-gray-500 text-lg">Loading editor...</p>
+      </div>
+    );
+  }
 
   return (
-    <ReactQuill
-      theme="snow"
-      value={value}
-      onChange={onChange}
-      className="mb-4"
-      modules={{
-        toolbar: [
-          ["bold", "italic", "underline", "strike"],
-          [{ header: 1 }, { header: 2 }],
-          [{ list: "ordered" }, { list: "bullet" }],
-          ["link", "image"],
-          ["clean"]
-        ]
-      }}
-    />
+    <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
+      <ReactQuill
+        theme="snow"
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className="min-h-[250px]"
+        modules={{
+          toolbar: [
+            [{ header: [1, 2, false] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["blockquote", "code-block"],
+            ["link", "image"],
+            ["clean"],
+          ],
+        }}
+      />
+    </div>
   );
 }
 

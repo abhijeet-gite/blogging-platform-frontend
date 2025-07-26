@@ -1,7 +1,8 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import API from "../services/api";
+import { AuthContext } from "../context/AuthContext";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -10,7 +11,17 @@ function EditBlog() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const { token } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // ✅ Redirect if not logged in
+  useEffect(() => {
+    if (!token) {
+      alert("⚠️ Please login to edit blogs.");
+      navigate("/login");
+    }
+  }, [token, navigate]);
 
   // ✅ Fetch Blog Details
   useEffect(() => {
@@ -19,14 +30,16 @@ function EditBlog() {
         setTitle(res.data.title);
         setContent(res.data.content);
       })
-      .catch(() => alert("Failed to load blog details"));
+      .catch(() => alert("❌ Failed to load blog details"))
+      .finally(() => setFetching(false));
   }, [id]);
 
   // ✅ Handle Update
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!title.trim() || !content.trim()) {
-      alert("Please enter title and content");
+      alert("⚠️ Please enter a title and content.");
       return;
     }
 
@@ -35,12 +48,21 @@ function EditBlog() {
       await API.put(`/posts/${id}`, { title, content });
       alert("✅ Blog updated successfully!");
       navigate("/dashboard");
-    } catch {
-      alert("❌ Update failed. Try again.");
+    } catch (error) {
+      console.error("Update error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "❌ Update failed. Try again.");
     } finally {
       setLoading(false);
     }
   };
+
+  if (fetching) {
+    return (
+      <div className="flex justify-center items-center min-h-[80vh]">
+        <p className="text-gray-600 text-lg">Loading blog details...</p>
+      </div>
+    );
+  }
 
   return (
     <form
@@ -85,4 +107,5 @@ function EditBlog() {
 }
 
 export default EditBlog;
+
 

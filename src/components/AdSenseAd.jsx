@@ -1,3 +1,4 @@
+//client//src//components//AdSenseAd.jsx
 import { useEffect } from "react";
 
 const AdSenseAd = () => {

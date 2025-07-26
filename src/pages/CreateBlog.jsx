@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
+import { AuthContext } from "../context/AuthContext";
 import "react-quill/dist/quill.snow.css";
 
 function CreateBlog() {
@@ -9,7 +10,16 @@ function CreateBlog() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user, token } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // ✅ Redirect if user not logged in
+  useEffect(() => {
+    if (!token) {
+      alert("⚠️ Please login to create a blog.");
+      navigate("/login");
+    }
+  }, [token, navigate]);
 
   // ✅ Dynamically import ReactQuill for better performance
   useEffect(() => {
@@ -21,20 +31,25 @@ function CreateBlog() {
   // ✅ Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim() || !content.trim()) {
-      alert("Please enter a title and content before publishing.");
+
+    if (!title.trim()) {
+      alert("⚠️ Please enter a blog title.");
+      return;
+    }
+    if (!content.trim()) {
+      alert("⚠️ Please write some content.");
       return;
     }
 
     setLoading(true);
     try {
-      const response = await API.post("/posts/create", { title, content });
-      console.log("Response:", response.data);
-      alert("✅ Blog created successfully!");
-      navigate("/");
+      const response = await API.post("/posts", { title, content }); // ✅ Correct route
+      console.log("✅ Blog created:", response.data);
+      alert("🎉 Blog created successfully!");
+      navigate("/dashboard"); // ✅ Redirect to dashboard
     } catch (error) {
-      console.error("Error creating blog:", error.response?.data || error.message);
-      alert("❌ Failed to create blog. Please try again.");
+      console.error("❌ Blog creation error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Failed to create blog. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -51,7 +66,7 @@ function CreateBlog() {
 
   return (
     <div className="min-h-[80vh] bg-gray-50 flex justify-center px-4 sm:px-6 lg:px-20 py-8">
-      <div className="bg-white rounded-xl shadow-xl w-full p-6 sm:p-10">
+      <div className="bg-white rounded-xl shadow-xl w-full p-6 sm:p-10 max-w-3xl">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800">
           ✍️ Create a New Blog
         </h2>
@@ -101,6 +116,7 @@ function CreateBlog() {
 }
 
 export default CreateBlog;
+
 
 
 
