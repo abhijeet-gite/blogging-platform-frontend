@@ -1,3 +1,4 @@
+//client//src//CreateBlog.jsx
 
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ function CreateBlog() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // ✅ Redirect if user not logged in
@@ -43,10 +44,11 @@ function CreateBlog() {
 
     setLoading(true);
     try {
-      const response = await API.post("/posts", { title, content }); // ✅ Correct route
+      // ✅ Correct API route
+      const response = await API.post("/posts/create", { title, content });
       console.log("✅ Blog created:", response.data);
       alert("🎉 Blog created successfully!");
-      navigate("/dashboard"); // ✅ Redirect to dashboard
+      navigate("/dashboard"); // Redirect to dashboard
     } catch (error) {
       console.error("❌ Blog creation error:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Failed to create blog. Please try again.");
