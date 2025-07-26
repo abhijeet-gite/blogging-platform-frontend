@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
@@ -10,12 +11,14 @@ function CreateBlog() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // ✅ Dynamically import ReactQuill for better performance
   useEffect(() => {
     import("react-quill").then((module) => {
       setReactQuill(() => module.default);
     });
   }, []);
 
+  // ✅ Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) {
@@ -25,9 +28,9 @@ function CreateBlog() {
 
     setLoading(true);
     try {
-      const response = await API.post("/posts/create", { title, content }); // ✅ Corrected endpoint
+      const response = await API.post("/posts/create", { title, content });
       console.log("Response:", response.data);
-      alert("✅ Blog created successfully! Waiting for admin approval.");
+      alert("✅ Blog created successfully!");
       navigate("/");
     } catch (error) {
       console.error("Error creating blog:", error.response?.data || error.message);
@@ -37,44 +40,68 @@ function CreateBlog() {
     }
   };
 
-  if (!ReactQuill) return <p className="text-center mt-10">Loading editor...</p>;
+  // ✅ Show loading while editor loads
+  if (!ReactQuill) {
+    return (
+      <div className="flex justify-center items-center min-h-[80vh]">
+        <p className="text-gray-600 text-lg">Loading editor...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-6 shadow rounded mt-6">
-      <h2 className="text-2xl font-bold mb-4">Create New Blog</h2>
-      <input
-        type="text"
-        placeholder="Blog Title"
-        className="w-full p-2 border mb-4"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <ReactQuill
-        theme="snow"
-        value={content}
-        onChange={setContent}
-        className="mb-4"
-        modules={{
-          toolbar: [
-            [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline", "strike"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "image"],
-            ["clean"]
-          ]
-        }}
-      />
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-500 text-white px-4 py-2 rounded disabled:bg-gray-400"
-        disabled={loading}
-      >
-        {loading ? "Publishing..." : "Publish"}
-      </button>
+    <div className="min-h-[80vh] bg-gray-50 flex justify-center px-4 sm:px-6 lg:px-20 py-8">
+      <div className="bg-white rounded-xl shadow-xl w-full p-6 sm:p-10">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800">
+          ✍️ Create a New Blog
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* ✅ Blog Title Input */}
+          <input
+            type="text"
+            placeholder="Enter blog title"
+            className="w-full p-4 text-lg border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+
+          {/* ✅ Rich Text Editor */}
+          <div className="bg-white border rounded-lg overflow-hidden">
+            <ReactQuill
+              theme="snow"
+              value={content}
+              onChange={setContent}
+              className="min-h-[300px] sm:min-h-[400px]"
+              placeholder="Write your blog content here..."
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, false] }],
+                  ["bold", "italic", "underline", "strike"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["link", "image"],
+                  ["clean"],
+                ],
+              }}
+            />
+          </div>
+
+          {/* ✅ Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition disabled:opacity-50"
+            disabled={loading}
+          >
+            {loading ? "Publishing..." : "✅ Publish Blog"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
 export default CreateBlog;
+
+
 
 

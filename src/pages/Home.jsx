@@ -18,7 +18,7 @@ function Home() {
   if (loading) return <p className="text-center mt-10">Loading blogs...</p>;
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <Helmet>
         <title>MyBlog | Latest Blogs</title>
         <meta
@@ -34,7 +34,7 @@ function Home() {
       {blogs.length === 0 ? (
         <p className="text-center text-gray-500">No blogs found.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
           {blogs.map((blog) => (
             <div
               key={blog._id}
