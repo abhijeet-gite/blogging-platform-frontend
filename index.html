@@ -4,11 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <title>MyBlog</title>
+    <title>My Blogging Platform</title>
 
-    <!-- ✅ Google AdSense Script -->
+    <!-- ✅ Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5585852911550365"
-      crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
+
+    <!-- ✅ Google CMP (Funding Choices) -->
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-5585852911550365?ers=1"></script>
+    <script>
+      (function() {
+        function signalGooglefcPresent() {
+          if (!window.frames['googlefcPresent']) {
+            if (document.body) {
+              const iframe = document.createElement('iframe');
+              iframe.style.cssText = 'width:0;height:0;border:none;display:none';
+              iframe.name = 'googlefcPresent';
+              document.body.appendChild(iframe);
+            } else {
+              setTimeout(signalGooglefcPresent, 0);
+            }
+          }
+        }
+        signalGooglefcPresent();
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
