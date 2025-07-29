@@ -5,9 +5,9 @@ function BlogCard({ blog }) {
   const plainText = blog.content.replace(/<[^>]+>/g, ""); // Remove HTML tags
 
   return (
-    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-100 overflow-hidden">
       {/* ✅ Blog Title */}
-      <h2 className="text-2xl font-semibold text-gray-900 px-4 pt-4 line-clamp-2">
+      <h2 className="text-2xl font-semibold text-gray-500 px-4 pt-4 line-clamp-2">
         {blog.title}
       </h2>
 

@@ -8,15 +8,15 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', system-ui, sans-serif;
-  background-color: #f9fafb; /* Light Gray background */
-  color: #1f2937; /* Gray-800 text */
+  background-color: #414243; /* Light Gray background */
+  color: #070707; /* Gray-800 text */
 }
 
 /* ✅ Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   html, body {
     background-color: #111827; /* Dark Background */
-    color: #f3f4f6; /* Light text */
+    color: #49494a; 
   }
 }
 
