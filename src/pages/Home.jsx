@@ -1,5 +1,4 @@
 
-
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { Link } from "react-router-dom";
@@ -39,8 +38,11 @@ function Home() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
           {blogs.map((blog, index) => (
-            <div key={blog._id}>
-              <div className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition duration-300">
+            <>
+              <div
+                key={blog._id}
+                className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition duration-300"
+              >
                 <div className="p-4">
                   <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
                   <p
@@ -62,7 +64,7 @@ function Home() {
                   <AdSenseAd />
                 </div>
               )}
-            </div>
+            </>
           ))}
         </div>
       )}
@@ -71,5 +73,8 @@ function Home() {
 }
 
 export default Home;
+
+
+
 
 

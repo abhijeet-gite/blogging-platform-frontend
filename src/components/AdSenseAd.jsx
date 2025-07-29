@@ -1,4 +1,5 @@
 //client//src//components//AdSenseAd.jsx
+
 import { useEffect } from "react";
 
 const AdSenseAd = () => {
@@ -15,8 +16,8 @@ const AdSenseAd = () => {
       <ins
         className="adsbygoogle"
         style={{ display: "block" }}
-        data-ad-client="ca-pub-5585852911550365"  // तुझा AdSense Publisher ID
-        data-ad-slot="2307121561"                // तुझा Ad Slot ID
+        data-ad-client="ca-pub-5585852911550365" // तुझा Publisher ID
+        data-ad-slot="2307121561" // तुझा Slot ID
         data-ad-format="auto"
         data-full-width-responsive="true"
       ></ins>
@@ -25,3 +26,5 @@ const AdSenseAd = () => {
 };
 
 export default AdSenseAd;
+
+

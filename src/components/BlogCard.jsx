@@ -38,3 +38,4 @@ function BlogCard({ blog }) {
 
 export default BlogCard;
 
+
