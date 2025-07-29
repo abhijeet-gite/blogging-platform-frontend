@@ -3,7 +3,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://your-backend.onrender.com/api", // ✅ Render backend link
+  baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api",
 });
 
 API.interceptors.request.use((req) => {
@@ -15,4 +15,5 @@ API.interceptors.request.use((req) => {
 });
 
 export default API;
+
 
